@@ -1,0 +1,1 @@
+flyway -locations=filesystem:. -user=root -password=test1234 -url=jdbc:mysql://localhost:3306 -schemas=product_management migrate
