@@ -5,7 +5,7 @@ namespace ArmyStore.Entities
     public class Product
     {
         private Product(
-            int id,
+            long id,
             string name,
             decimal price,
             string imageUrl)
@@ -21,7 +21,7 @@ namespace ArmyStore.Entities
         }
 
         internal Product(
-            int id,
+            long id,
             string name,
             decimal price,
             string imageUrl,
@@ -33,7 +33,7 @@ namespace ArmyStore.Entities
             UpdatedOn = updatedOn;
         }
 
-        public int Id { get; private set; }
+        public long Id { get; private set; }
 
         public string Name { get; private set; }
 
@@ -47,7 +47,7 @@ namespace ArmyStore.Entities
 
         public ProductMetadata ProductMetadata { get; private set; }
 
-        public static Product Create(int id, string name, decimal price, string imageUrl)
+        public static Product Create(long id, string name, decimal price, string imageUrl)
         {
             return new Product(id, name, price, imageUrl);
         }

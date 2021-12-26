@@ -1,11 +1,9 @@
 using ArmyStore.Enums;
 
-namespace ArmyStore.DataModels
+namespace ArmyStore.Dtos
 {
-    public class ProductModel
+    public class InsertProductDto
     {
-        public long Id { get; set; }
-
         public string Name { get; set; }
 
         public decimal Price { get; set; }
@@ -15,5 +13,9 @@ namespace ArmyStore.DataModels
         public DateTime UpdatedOn { get; set; }
 
         public Status Status { get; set; }
+
+        public string Description { get; set; }
+
+        public string Specifications { get; set; }
     }
 }

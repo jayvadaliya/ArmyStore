@@ -1,3 +1,4 @@
+using ArmyStore.Assembler;
 using ArmyStore.Configurations;
 using ArmyStore.Connections;
 using ArmyStore.DataModels;
@@ -15,7 +16,15 @@ namespace ArmyStore.Extentions
             services.Configure<DataBaseConfigurations>(config.GetSection("ConnectionStrings"));
 
             services.AddScoped<IDapperContext, DapperContext>();
-            services.AddScoped<IProductRepository, ProductRepository>();
+
+            // Assemblers
+            services.AddScoped<IProductAssembler, ProductAssembler>();
+
+            // Repositories
+            services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddScoped<IRepository<ProductMetadata>, ProductMetadataRepository>();
+
+            // DataModel Mappers
             services.AddScoped<IMapper<Product, ProductModel>, ProductDataModelMapper>();
             services.AddScoped<IMapper<ProductMetadata, ProductMetadataModel>, ProductMetadataModelMapper>();
             return services;

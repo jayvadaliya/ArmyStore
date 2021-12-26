@@ -1,9 +1,7 @@
-namespace ArmyStore.DataModels
+namespace ArmyStore.Dtos
 {
-    public class ProductMetadataModel
+    public class ProductMetadataDto
     {
-        public long Id { get; set; }
-
         public string Description { get; set; }
 
         public string Specifications { get; set; }

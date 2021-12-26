@@ -1,8 +1,8 @@
 using ArmyStore.Enums;
 
-namespace ArmyStore.DataModels
+namespace ArmyStore.Dtos
 {
-    public class ProductModel
+    public class ProductDto
     {
         public long Id { get; set; }
 
@@ -15,5 +15,7 @@ namespace ArmyStore.DataModels
         public DateTime UpdatedOn { get; set; }
 
         public Status Status { get; set; }
+
+        public ProductMetadataDto Metadata { get; set; }
     }
 }

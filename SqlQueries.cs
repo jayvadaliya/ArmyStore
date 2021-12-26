@@ -13,6 +13,5 @@ internal static class SqlQueries
             product_metadata.specifications
         From
             product
-        JOIN product_metadata ON product_metadata.id = product.id
-        WHERE product.id = @Id";
+        JOIN product_metadata ON product_metadata.id = product.id";
 }
