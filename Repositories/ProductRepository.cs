@@ -57,7 +57,7 @@ namespace ArmyStore.Repositories
             }
         }
 
-        public async Task<Product> GetById(int id, bool useTransaction = false)
+        public async Task<Product> GetById(long id, bool useTransaction = false)
         {
             string where = " WHERE product.id = @id";
             var param = new { Id = new DbString { Value = id.ToString() } };
@@ -69,6 +69,21 @@ namespace ArmyStore.Repositories
                     param,
                     transaction: useTransaction ? _dapperContext.GetTransaction() : null);
                 return _mapper.MapToDomain(result);
+            }
+        }
+
+        public async Task Delete(long id, bool useTransaction = false)
+        {
+            var param = new { Id = new DbString { Value = id.ToString() } };
+
+            await _metadataRepository.Delete(id, false);
+            using (IDbConnection conn = _dapperContext.Connection)
+            {
+                await conn.ExecuteAsync(
+                    SqlQueries.DELETE_PRODUCT,
+                    param,
+                    transaction: useTransaction ? _dapperContext.GetTransaction() : null);
+                conn.Close();
             }
         }
 

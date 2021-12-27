@@ -14,4 +14,10 @@ internal static class SqlQueries
         From
             product
         JOIN product_metadata ON product_metadata.id = product.id";
+
+    internal const string DELETE_PRODUCT = @"
+        Delete from product Where id = @Id";
+
+    internal const string DELETE_PRODUCT_METADATA = @"
+        Delete from product_metadata Where id = @Id";
 }

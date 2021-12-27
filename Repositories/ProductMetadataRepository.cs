@@ -26,7 +26,7 @@ namespace ArmyStore.Repositories
             await InsertProductMetadata(model, useTransaction);
         }
 
-        public Task<ProductMetadata> GetById(int id, bool useTransaction = false)
+        public Task<ProductMetadata> GetById(long id, bool useTransaction = false)
         {
             throw new NotImplementedException();
         }
@@ -34,6 +34,20 @@ namespace ArmyStore.Repositories
         public Task<IEnumerable<ProductMetadata>> GetAll(bool useTransaction = false)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task Delete(long id, bool useTransaction = false)
+        {
+            var param = new { Id = new DbString { Value = id.ToString() } };
+
+            using (IDbConnection conn = _dapperContext.Connection)
+            {
+                await conn.ExecuteAsync(
+                    SqlQueries.DELETE_PRODUCT_METADATA,
+                    param,
+                    transaction: useTransaction ? _dapperContext.GetTransaction() : null);
+                conn.Close();
+            }
         }
 
         private async Task<long> InsertProductMetadata(ProductMetadataModel model, bool useTransaction)

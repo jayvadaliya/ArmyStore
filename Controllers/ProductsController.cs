@@ -32,7 +32,7 @@ namespace ArmyStore.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult> GetById([FromRoute] int id)
+        public async Task<ActionResult> GetById([FromRoute] long id)
         {
             if (id < 0)
                 return BadRequest("Invalid value of Id.");
@@ -55,8 +55,24 @@ namespace ArmyStore.Controllers
         public async Task<ActionResult> Post([FromBody] InsertProductDto dto)
         {
             var entity = _assembler.CreateEntity(dto);
-            await _repository.Create(entity, true);
+            await _repository.Create(entity, false);
             return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Delete([FromRoute] long id)
+        {
+            if (id < 0)
+                return BadRequest("Invalid value of Id.");
+
+            var product = await _repository.GetById(id);
+            if (product == null)
+                return NotFound();
+
+            await _repository.Delete(id);
+
+            return Accepted();
         }
     }
 }
