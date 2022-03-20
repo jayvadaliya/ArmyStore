@@ -37,13 +37,21 @@ namespace ArmyStore.Repositories
             }
         }
 
-        public async Task<IEnumerable<Product>> GetAll(bool useTransaction = false)
+        public async Task<IEnumerable<Product>> GetAll(string searchTerm, bool useTransaction = false)
         {
+            var searchTermSql = string.Empty;
+            IDictionary<string, object> parameters = new Dictionary<string, object>();
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                parameters.Add("@term", searchTerm);
+                searchTermSql += " Where `product`.`name` LIKE CONCAT('%', @term, '%')";
+            }
+
             using (IDbConnection conn = _dapperContext.Connection)
             {
                 var entities = new List<Product>();
                 await conn.QueryAsync<ProductModel, ProductMetadataModel, Product>(
-                    SqlQueries.GET_PRODUCT_DETAIL,
+                    string.Concat(SqlQueries.GET_PRODUCT_DETAIL, searchTermSql),
                     (productModel, ProductMetadataModel) =>
                     {
                         var entity = _mapper.MapToDomain(productModel);
@@ -51,6 +59,7 @@ namespace ArmyStore.Repositories
                         entities.Add(entity);
                         return entity;
                     },
+                    parameters,
                     transaction: useTransaction ? _dapperContext.GetTransaction() : null);
 
                 return entities;
@@ -64,11 +73,18 @@ namespace ArmyStore.Repositories
 
             using (IDbConnection conn = _dapperContext.Connection)
             {
-                var result = await conn.QueryFirstOrDefaultAsync<ProductModel>(
+                var result = await conn.QueryAsync<ProductModel, ProductMetadataModel, Product>(
                     string.Concat(SqlQueries.GET_PRODUCT_DETAIL, where),
+                    (productModel, ProductMetadataModel) =>
+                    {
+                        var entity = _mapper.MapToDomain(productModel);
+                        entity.LinkMetadata(_productMetadataMapper.MapToDomain(ProductMetadataModel));
+                        return entity;
+                    },
                     param,
                     transaction: useTransaction ? _dapperContext.GetTransaction() : null);
-                return _mapper.MapToDomain(result);
+
+                return result.FirstOrDefault();
             }
         }
 

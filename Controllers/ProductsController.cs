@@ -21,9 +21,9 @@ namespace ArmyStore.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult> GetAll([FromQuery] string searchTerm)
         {
-            var products = await _repository.GetAll();
+            var products = await _repository.GetAll(searchTerm);
             if (products == null)
                 return NotFound();
 

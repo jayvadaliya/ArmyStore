@@ -31,7 +31,7 @@ namespace ArmyStore.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ProductMetadata>> GetAll(bool useTransaction = false)
+        public Task<IEnumerable<ProductMetadata>> GetAll(string searchTerm, bool useTransaction = false)
         {
             throw new NotImplementedException();
         }
