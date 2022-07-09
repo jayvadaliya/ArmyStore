@@ -20,4 +20,14 @@ internal static class SqlQueries
 
     internal const string DELETE_PRODUCT_METADATA = @"
         Delete from product_metadata Where id = @Id";
+
+    internal const string GET_USER_DETAIL = @"
+        SELECT
+            user.id,
+            user.name,
+            user.password_hash as PasswordHash,
+            user.password_salt as PasswordSalt,
+            user.updated_on
+        From
+            user";
 }

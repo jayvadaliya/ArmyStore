@@ -23,6 +23,7 @@ namespace ArmyStore.Extentions
             // Repositories
             services.AddScoped<IRepository<Product>, ProductRepository>();
             services.AddScoped<IRepository<ProductMetadata>, ProductMetadataRepository>();
+            services.AddScoped<IRepository<User>, UserRepository>();
 
             // DataModel Mappers
             services.AddScoped<IMapper<Product, ProductModel>, ProductDataModelMapper>();
